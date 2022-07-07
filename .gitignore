@@ -111,3 +111,8 @@ token.*
 tokens.*
 token/
 tokens/
+
+#######################
+# Ignore the IDE project file on the clone. There is no need to share
+# considering people might use different IDE.
+.idea/
