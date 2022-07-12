@@ -2,27 +2,44 @@ clear all
 set more off
 cd "C:\Users\Cebbina\Documents\World_Bank\PCP\DataWork\MasterData\Complaints\DataSet\Intermediate"
  
-import excel using "merged_portal_part2.xlsx", firstrow clear
+import delimited using "merged_data_complaint_details_and_last_remarks_removed.csv", clear
 
-// Generate duration in days bewteen complaint_date and last_remarks_date
+// Step 1: Generate duration in days bewteen complaint_date and last_remarks_date
+	
+	* convert complaint_date & last_remarks_date (both are strings) to Stata date format
+	gen complaint_date2 = date(complaint_date, "MDYhm")
+	gen last_remarks_date2 = date(last_remarks_date, "MDYhm")
 
-gen resolution_duration = dofc(last_remarks_date) - dofc(complaint_date)
+	* calculte resolution duration in days
+	gen resolution_days = last_remarks_date2 - complaint_date2
 
-// Summarize each bureaucrat's rating and resolution duration
+// Step 2: Summarize each bureaucrat's rating and resolution duration in days
 
-sort worker_name	
-collapse	(mean)	resolution_duration_average = resolution_duration ///
-					citizen_rating_average = star ///
-			(count)	resolution_duration_count = resolution_duration ///
-					citizen_rating_count=star ///
-			, by(worker_name)
+	collapse	(mean)	Resolution_days_average = resolution_days ///
+						Citizen_rating_average = star ///
+				(sd)	Resolution_days_sd = resolution_days ///
+						Citizen_rating_sd = star ///
+				(max)	Resolution_days_max = resolution_days ///
+						Citizen_rating_max = star ///
+				(min)	Resolution_days_min = resolution_days ///
+						Citizen_rating_min = star ///
+				(count)	Resolution_days_count = resolution_days ///
+						Citizen_rating_count = star ///
+				, by(worker_name)
 
-// Prepare format for exportation and export the summarized data to csv file
+// Step 3: Exportation
 
-* Capitalize the first letter in worker_name
-gen bureaucrat = strproper(worker_name)
-drop worker_name
-order bureaucrat , first
-
-* export to csv file
-export delimited using bureaucrat_rating_resolution_duration.csv, replace
+	* capitalize the first letter in worker_name
+	gen Name = strproper(worker_name)
+	drop worker_name
+	
+	* keep only 1 decimal points
+	tostring Resolution_days_average-Citizen_rating_count , replace force format(%9.1f)
+	
+	* reorder variables
+	order Resolution_days_average-Citizen_rating_count , alphabetic
+	order Name , first
+	
+	* export to csv file
+	cd "C:\Users\Cebbina\Documents\World_Bank\PCP\DataWork\MasterData\Complaints\Outputs\Raw"
+	export delimited using bureaucrat_rating_resolution_days.csv, replace
