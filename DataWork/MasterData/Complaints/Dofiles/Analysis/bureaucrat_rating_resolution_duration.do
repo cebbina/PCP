@@ -2,13 +2,13 @@ clear all
 set more off
 cd "C:\Users\Cebbina\Documents\World_Bank\PCP\DataWork\MasterData\Complaints\DataSet\Intermediate"
  
-import delimited using "merged_data_complaint_details_and_last_remarks_removed.csv", clear
+import delimited using "merged_data.csv", clear bindquote(strict) maxquotedrows(10000)
 
 // Step 1: Generate duration in days bewteen complaint_date and last_remarks_date
 	
 	* convert complaint_date & last_remarks_date (both are strings) to Stata date format
-	gen complaint_date2 = date(complaint_date, "MDYhm")
-	gen last_remarks_date2 = date(last_remarks_date, "MDYhm")
+	gen complaint_date2 = date(complaint_date, "YMDhms")
+	gen last_remarks_date2 = date(last_remarks_date, "YMDhms")
 
 	* calculte resolution duration in days
 	gen resolution_days = last_remarks_date2 - complaint_date2
@@ -38,6 +38,8 @@ import delimited using "merged_data_complaint_details_and_last_remarks_removed.c
 	
 	* reorder variables
 	order Resolution_days_average-Citizen_rating_count , alphabetic
+	order Citizen*sd , after(Citizen*average)
+	order Resolution*sd , after(Resolution*average)
 	order Name , first
 	
 	* export to csv file
