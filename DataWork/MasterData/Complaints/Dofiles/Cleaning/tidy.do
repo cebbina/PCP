@@ -2,7 +2,7 @@ clear all
 set more off
 cd "C:\Users\Cebbina\Documents\World_Bank\PCP\DataWork\MasterData\Complaints\DataSet\Intermediate"
  
-import delimited using "merged_data.csv", clear bindquote(strict) maxquotedrows(10000)
+import delimited using "merged_data.csv", bindquote(strict) maxquotedrows(10000) clear
 
 // Step 1: Make sure each column corresponds to one variable 
 	
@@ -46,4 +46,4 @@ import delimited using "merged_data.csv", clear bindquote(strict) maxquotedrows(
 // Step 2: Exportation
 	
 	* export to csv file
-	export delimited using merged_data_tidy.csv, replace
+	export delimited using merged_data_tidy.csv, datafmt quote replace
