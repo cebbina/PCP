@@ -33,15 +33,15 @@ import delimited using "merged_data.csv", bindquote(strict) maxquotedrows(10000)
 	order feedback_date feedback_time , after(satisfaction_status)
 		
 	* split blood_group into the ABO system and the Rh system, and then reorder to the original order
-	gen blood_group_ABO = substr(blood_group, 1, 2)	//extract the ABO blood type
-	replace blood_group_ABO = trim(blood_group_ABO)	//trim redundant space
+	gen blood_group_abo = substr(blood_group, 1, 2)	//extract the ABO blood type
+	replace blood_group_abo = trim(blood_group_abo)	//trim redundant space
 	
-	gen blood_group_Rh_temp = substr(blood_group, -2, 1)	//extract the Rh blood type
-	gen blood_group_Rh = "positive" if blood_group_Rh_temp == "+"
-	replace blood_group_Rh = "negative" if blood_group_Rh_temp == "-"
+	gen blood_group_rh_temp = substr(blood_group, -2, 1)	//extract the Rh blood type
+	gen blood_group_rh = "positive" if blood_group_rh_temp == "+"
+	replace blood_group_rh = "negative" if blood_group_rh_temp == "-"
 	
-	order blood_group_ABO blood_group_Rh , after(disabled)	//reorder
-	drop blood_group
+	order blood_group_abo blood_group_rh , after(blood_group)	//reorder
+	drop blood_group blood_group_rh_temp
 	
 // Step 2: Exportation
 	
