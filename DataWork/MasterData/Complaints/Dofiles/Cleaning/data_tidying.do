@@ -42,8 +42,27 @@ import delimited using "merged_data.csv", bindquote(strict) maxquotedrows(10000)
 	
 	order blood_group_abo blood_group_rh , after(blood_group)	//reorder
 	drop blood_group blood_group_rh_temp
+
+
+// Step 2: Check other date format and order of variables
 	
-// Step 2: Exportation
+	* change post_from and post_to to Stata date format
+	foreach var in post_from post_to{
+		
+		gen float `var'_temp = date(`var', "YMD")	//generate a temporary date variable
+		format `var'_temp %td	//formate date
+		drop `var'
+		rename `var'_temp `var'	//replace the original variable with the temporary date variable		
+	}
+	
+	* move worker_post_organization_grouped to be with worker_post_organization
+	order worker_post_organization_grouped , after(worker_post_organization)
+	
+	
+// Step 3: Exportation
 	
 	* export to csv file
-	export delimited using merged_data_tidy.csv, datafmt quote replace
+	export delimited using "merged_data_tidy.csv", quote replace
+	
+	* export to dta file
+	save "merged_data_tidy", replace
