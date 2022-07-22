@@ -1,9 +1,24 @@
-clear all
-set more off
-cd "C:\Users\Cebbina\Documents\World_Bank\PCP\DataWork\MasterData\Complaints\DataSet\Intermediate"
- 
-import delimited using "merged_data.csv", bindquote(strict) maxquotedrows(10000) clear
+********************************************************************************** 
+* This data tidying script is written to acheive the following data tidy tasks:  *
+* 1. Each column corresponds to one variable									 *
+* 2. Each row corresponds to one observation									 *
+* 3. All variables in the data table have the same unit of observation 			 *
+* 																				 *
+* 2 & 3 are already fullfilled because the nature of this dataset. Therefore, we *
+* will focus on task 1.															 *
+*																				 *
+* Author: Cheng-Wei Lee (2022 Summer Intern in DE JURE program, DIME, World Bank)*
+* Create Date: 2022-JUL-13														 *
+********************************************************************************** 
 
+// Step 0: Setting and read data
+
+	clear all
+	set more off
+	cd "C:\Users\Cebbina\Documents\World_Bank\PCP\DataWork\MasterData\Complaints\DataSet\Intermediate"
+	import delimited using "merged_data.csv", bindquote(strict) maxquotedrows(10000) clear
+
+	
 // Step 1: Make sure each column corresponds to one variable 
 	
 	* split timestamp variables into date and time, including complaint_date, last_remarks_date, dob, citizen_registraion_date, feedback_date, and then reorder date and time variables to the original order
