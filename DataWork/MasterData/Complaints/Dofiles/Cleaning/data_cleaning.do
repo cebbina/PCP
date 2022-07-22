@@ -1,14 +1,15 @@
-/****************************************************************************** 
-This data cleaning script includes the following tasks for each variable (if applicable) from the tidy dataset:
-Step 1: Recode values
-Step 2: Define value label
-Step 3: Encode categorical variable as numeric variable 
-Step 4: Rename variable
-Step 5: Define variable label and note
-
-Author: Cheng-Wei Lee (2022 Summer Intern in the DE JURE program, DIME, World Bank)
-Create Date: 2022-JUL-19
-******************************************************************************/ 
+********************************************************************************** 
+* This data cleaning script includes the following tasks for each variable 		 *
+* (if applicable) from the tidy dataset:										 *
+* Step 1: Recode values															 *
+* Step 2: Define value label													 *
+* Step 3: Encode categorical variable as numeric variable 						 *
+* Step 4: Rename variable														 *
+* Step 5: Define variable label and note										 *
+*																				 *
+* Author: Cheng-Wei Lee (2022 Summer Intern in DE JURE program, DIME, World Bank)*
+* Create Date: 2022-JUL-19														 *
+********************************************************************************** 
 
 // Step 0: Setting and read data
 
@@ -3378,9 +3379,6 @@ Create Date: 2022-JUL-19
 	
 
 // Exportation
-
-	* redirect to final dataset folder
-	cd "C:\Users\Cebbina\Documents\World_Bank\PCP\DataWork\MasterData\Complaints\DataSet\Final"
 
 	* export to csv file
 	export delimited using "merged_data_clean.csv", quote replace
