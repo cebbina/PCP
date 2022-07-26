@@ -48,7 +48,11 @@
 	* keep the highest BS post if there are >1 posts happened in the same month. If there are >1 posts with same BS happened in the same month, keep the newest one. 
 	sort worker_name post_from_yr post_from_mo BS post_from
 	duplicates drop worker_name post_from_yr post_from_mo , force
-	
+
+	* check outliers
+	tab post_from_yr
+	drop if post_from_yr == 219
+	tab post_from_mo
 	
 // Step 4: Exportation
 
