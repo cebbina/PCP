@@ -53,8 +53,16 @@
 	tab post_from_yr
 	drop if post_from_yr == 219
 	tab post_from_mo
+
+// Step 4: Bar chart
+	histogram	post_from_yr, discrete freq addlabels addlabopts(mlabsize(vsmall)) ///
+				xtitle("") ytitle("Number of Transfer") yscale(titlegap(2)) ///
+				graphregion(color(white)) color(navy) xlabel(2000(5)2021) barwidth(0.8)
 	
-// Step 4: Exportation
+	cd "C:\Users\Cebbina\Documents\World_Bank\PCP\DataWork\MasterData\Complaints\Outputs\Raw"
+	graph export "transger_panel.png" , replace	
+	
+// Step 5: Exportation
 
 	* redirect to final dataset folder
 	cd "C:\Users\Cebbina\Documents\World_Bank\PCP\DataWork\MasterData\Complaints\DataSet\Final"
